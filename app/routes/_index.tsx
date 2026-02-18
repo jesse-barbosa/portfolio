@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import type { MetaFunction } from "@remix-run/node";
 import { Form, Link } from "@remix-run/react";
 import { FaEnvelope, FaGithub, FaLinkedin, FaWhatsapp, FaInstagram, FaDownload, FaFile } from "react-icons/fa6";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { StarSeparator } from "~/components/star-separator";
 import { useTranslation } from "react-i18next";
 import { useScroll, useMotionValueEvent } from "framer-motion";
@@ -73,6 +73,73 @@ export default function Index() {
     if (lng === "pt") setCvLang("pt");
     else setCvLang("en"); // inglês vira fallback global
   }, [lng]);
+
+  // fechar modal com ESC
+  useEffect(() => {
+    if (!cvOpen) return;
+
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setCvOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [cvOpen]);
+
+  // trava scroll do body quando modal aberto
+  useEffect(() => {
+    if (cvOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [cvOpen]);
+
+  const modalRef = useRef<HTMLDivElement | null>(null);
+
+  // focus trap dentro do modal
+  useEffect(() => {
+    if (!cvOpen) return;
+
+    const modal = modalRef.current;
+    if (!modal) return;
+
+    const focusable = modal.querySelectorAll<HTMLElement>(
+      'a, button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
+    );
+
+    if (!focusable.length) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    first.focus();
+
+    const handleTab = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return;
+
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+
+    modal.addEventListener("keydown", handleTab);
+    return () => modal.removeEventListener("keydown", handleTab);
+  }, [cvOpen]);
 
   const cvFiles: Record<CVLanguage, string> = {
     pt: "/cv/cv-pt.pdf",
@@ -516,57 +583,96 @@ export default function Index() {
       </footer>
 
       {/* Modal for CV download */}
-      {cvOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-md">
-          <div className="w-[90%] max-w-md rounded-2xl bg-[#111] p-6 shadow-2xl border border-white/10">
+      <AnimatePresence>
+        {cvOpen && (
+          <motion.div
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-xl"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{
+              type: "spring",
+              stiffness: 260,
+              damping: 22,
+            }}
+            onClick={() => setCvOpen(false)} // fechar clicando fora
+          >
+            <motion.div
+              ref={modalRef}
+              onClick={(e) => e.stopPropagation()} // impede fechar ao clicar dentro
+              className="w-[90%] max-w-md rounded-2xl bg-[#111] p-6 shadow-2xl border border-white/10"
+              initial={{
+                opacity: 0,
+                scale: 0.9,
+                y: 40,
+                filter: "blur(12px)",
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+                y: 0,
+                filter: "blur(0px)",
+              }}
+              exit={{
+                opacity: 0,
+                scale: 0.96,
+                y: 20,
+                filter: "blur(8px)",
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 220,
+                damping: 24,
+              }}
+            >
+              <h3 className="text-lg font-semibold mb-4 text-white">
+                {t("nav.chooseLanguage") ?? "Choose CV language"}
+              </h3>
 
-            <h3 className="text-lg font-semibold mb-4 text-white">
-              {t("nav.chooseLanguage") ?? "Choose CV language"}
-            </h3>
+              <div className="flex flex-col gap-3">
+                {Object.entries(cvLanguages).map(([key, lang]) => (
+                  <button
+                    key={key}
+                    onClick={() => setCvLang(key as CVLanguage)}
+                    className={`flex items-center justify-between rounded-xl px-4 py-3 transition
+                      ${
+                        cvLang === key
+                          ? "bg-primary text-white"
+                          : "bg-white/5 hover:bg-white/10 text-gray-300"
+                      }
+                    `}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-lg">{lang.flag}</span>
+                      <span>{lang.label}</span>
+                    </div>
 
-            <div className="flex flex-col gap-3">
-              {Object.entries(cvLanguages).map(([key, lang]) => (
+                    {cvLang === key && <Check className="h-4 w-4" />}
+                  </button>
+                ))}
+              </div>
+
+              <div className="mt-6 flex justify-between gap-3">
                 <button
-                  key={key}
-                  onClick={() => setCvLang(key as CVLanguage)}
-                  className={`flex items-center justify-between rounded-xl px-4 py-3 transition
-                    ${
-                      cvLang === key
-                        ? "bg-primary text-white"
-                        : "bg-white/5 hover:bg-white/10 text-gray-300"
-                    }
-                  `}
+                  onClick={() => setCvOpen(false)}
+                  className="flex-1 rounded-xl border border-white/10 py-2 text-gray-300 hover:bg-white/5"
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="text-lg">{lang.flag}</span>
-                    <span>{lang.label}</span>
-                  </div>
-
-                  {cvLang === key && <Check className="h-4 w-4" />}
+                  {t("common.cancel") ?? "Cancel"}
                 </button>
-              ))}
-            </div>
 
-            <div className="mt-6 flex justify-between gap-3">
-              <button
-                onClick={() => setCvOpen(false)}
-                className="flex-1 rounded-xl border border-white/10 py-2 text-gray-300 hover:bg-white/5"
-              >
-                {t("common.cancel") ?? "Cancel"}
-              </button>
-
-              <a
-                href={cvFiles[cvLang]}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 rounded-xl bg-primary py-2 text-center font-medium text-white hover:bg-primary/80"
-              >
-                {t("common.download") ?? "Download"}
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
+                <a
+                  href={cvFiles[cvLang]}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 rounded-xl bg-primary py-2 text-center font-medium text-white hover:bg-primary/80"
+                >
+                  {t("common.download") ?? "Download"}
+                </a>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
