@@ -3,12 +3,20 @@ export default {
   description:
     "Full-Stack Developer passionate about creating great web experiences.",
 
+  common: {
+    cancel: "Cancel",
+    download: "Download",
+  },
+  
   nav: {
     home: "Home",
     skills: "Skills",
     projects: "Projects",
     about: "About Me",
     education: "Education & Experience",
+
+    curriculum: "Download CV",
+    chooseLanguage: "Choose Language",
   },
 
   skills: {

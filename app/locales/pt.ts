@@ -3,12 +3,20 @@ export default {
   description:
     "Desenvolvedor Full-Stack apaixonado por criar experiências web incríveis.",
 
+  common: {
+    cancel: "Cancelar",
+    download: "Baixar",
+  },
+
   nav: {
     home: "Início",
     skills: "Habilidades",
     projects: "Projetos",
     about: "Sobre mim",
     education: "Educ & Exp",
+
+    curriculum: "Baixar CV",
+    chooseLanguage: "Escolha o idioma",
   },
 
   skills: {

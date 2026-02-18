@@ -3,12 +3,20 @@ export default {
   description:
     "Harika web deneyimleri oluşturma konusunda tutkulu bir Full-Stack Geliştirici.",
 
+  common: {
+    cancel: "İptal",
+    download: "İndir",
+  },
+
   nav: {
     home: "Ana Sayfa",
     skills: "Yetenekler",
     projects: "Projeler",
     about: "Hakkımda",
     education: "Eğitim & Deneyim",
+
+    curriculum: "CV İndir",
+    chooseLanguage: "Dil Seçin",
   },
 
   skills: {

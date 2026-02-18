@@ -1,7 +1,7 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import type { MetaFunction } from "@remix-run/node";
 import { Form, Link } from "@remix-run/react";
-import { FaEnvelope, FaGithub, FaLinkedin, FaWhatsapp, FaInstagram } from "react-icons/fa6";
+import { FaEnvelope, FaGithub, FaLinkedin, FaWhatsapp, FaInstagram, FaDownload, FaFile } from "react-icons/fa6";
 import { motion } from "framer-motion";
 import { StarSeparator } from "~/components/star-separator";
 import { useTranslation } from "react-i18next";
@@ -35,7 +35,8 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  type Language = keyof typeof languages;
+  type UILanguage = keyof typeof languages; // pt | en | tr
+  type CVLanguage = "pt" | "en";
 
   const { t, i18n } = useTranslation();
 
@@ -59,9 +60,24 @@ export default function Index() {
   });
 
   // idioma atual
-  const lng: Language = ["pt", "en", "tr"].includes(i18n.language)
-    ? (i18n.language as Language)
+  const lng: UILanguage = ["pt", "en", "tr"].includes(i18n.language)
+    ? (i18n.language as UILanguage)
     : "pt";
+
+  const [cvOpen, setCvOpen] = useState(false);
+
+  // idioma selecionado no modal (sincroniza com site)
+  const [cvLang, setCvLang] = useState<CVLanguage>("pt");
+
+  useEffect(() => {
+    if (lng === "pt") setCvLang("pt");
+    else setCvLang("en"); // inglês vira fallback global
+  }, [lng]);
+
+  const cvFiles: Record<CVLanguage, string> = {
+    pt: "/cv/cv-pt.pdf",
+    en: "/cv/cv-en.pdf",
+  };
 
   const projectsRaw = t("projects.items", {
     returnObjects: true,
@@ -86,6 +102,11 @@ export default function Index() {
       flag: "🇹🇷",
     }
   } as const;
+
+  const cvLanguages = {
+    pt: languages.pt,
+    en: languages.en,
+  };
 
   const current = languages[lng];
 
@@ -180,7 +201,7 @@ export default function Index() {
             </Link>
           </motion.div>
 
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-8 ml-12">
             <a
               href="#hero"
               onClick={(e) => scrollToSection(e, "hero")}
@@ -222,87 +243,103 @@ export default function Index() {
             </a>
           </div>
 
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                size="language"
-                className="group flex items-center gap-2 px-3"
-              >
-                <span className="text-lg">{current.flag}</span>
-
-                <span className="text-sm font-medium text-foreground">
-                  {current.label}
-                </span>
-
-                <ChevronDown
-                  className="
-                    ml-1 h-4 w-4 text-muted-foreground
-                    transition-transform duration-200
-                    group-data-[state=open]:rotate-180
-                  "
-                />
-              </Button>
-            </DropdownMenuTrigger>
-
-            <DropdownMenuContent
-              align="end"
-              side="bottom"
-              sideOffset={8}
-              avoidCollisions={false}
+          <div className="flex items-center gap-3 ml-auto">
+            <button
+              onClick={() => setCvOpen(true)}
+              className={`
+                hidden md:flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition
+                ${scrolled
+                  ? "border border-white/20 text-white hover:bg-white/10"
+                  : "bg-primary text-white"
+                }
+              `}
             >
-              {/* Português */}
-              <DropdownMenuItem asChild>
-                <Form method="post">
-                  <button
-                    type="submit"
-                    onClick={() => i18n.changeLanguage("pt")}
-                    className="flex w-full items-center gap-3"
-                  >
-                    <span className="text-lg">🇧🇷</span>
-                    <span>Português</span>
-                    {lng === "pt" && <Check className="ml-auto h-4 w-4" />}
-                  </button>
-                </Form>
-              </DropdownMenuItem>
+              {t("nav.curriculum")}
+              <FaFile className="h-4 w-4" />
+            </button>
 
-              {/* English */}
-              <DropdownMenuItem asChild>
-                <Form method="post">
-                  <button
-                    type="submit"
-                    onClick={() => i18n.changeLanguage("en")}
-                    className="flex w-full items-center gap-3"
-                  >
-                    <span className="text-lg">🇺🇸</span>
-                    <span>English</span>
-                    {lng === "en" && <Check className="ml-auto h-4 w-4" />}
-                  </button>
-                </Form>
-              </DropdownMenuItem>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="language"
+                  className="group flex items-center gap-2 px-3"
+                >
+                  <span className="text-lg">{current.flag}</span>
 
-              {/* Turkish */}
-              <DropdownMenuItem asChild>
-                <Form method="post">
-                  <button
-                    type="submit"
-                    onClick={() => i18n.changeLanguage("tr")}
-                    className="flex w-full items-center gap-3"
-                  >
-                    <span className="text-lg">🇹🇷</span>
-                    <span>Türkçe</span>
-                    {lng === "tr" && <Check className="ml-auto h-4 w-4" />}
-                  </button>
-                </Form>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                  <span className="text-sm font-medium text-foreground">
+                    {current.label}
+                  </span>
+
+                  <ChevronDown
+                    className="
+                      ml-1 h-4 w-4 text-muted-foreground
+                      transition-transform duration-200
+                      group-data-[state=open]:rotate-180
+                    "
+                  />
+                </Button>
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent
+                align="end"
+                side="bottom"
+                sideOffset={8}
+                avoidCollisions={false}
+              >
+                {/* Português */}
+                <DropdownMenuItem asChild>
+                  <Form method="post">
+                    <button
+                      type="submit"
+                      onClick={() => i18n.changeLanguage("pt")}
+                      className="flex w-full items-center gap-3"
+                    >
+                      <span className="text-lg">🇧🇷</span>
+                      <span>Português</span>
+                      {lng === "pt" && <Check className="ml-auto h-4 w-4" />}
+                    </button>
+                  </Form>
+                </DropdownMenuItem>
+
+                {/* English */}
+                <DropdownMenuItem asChild>
+                  <Form method="post">
+                    <button
+                      type="submit"
+                      onClick={() => i18n.changeLanguage("en")}
+                      className="flex w-full items-center gap-3"
+                    >
+                      <span className="text-lg">🇺🇸</span>
+                      <span>English</span>
+                      {lng === "en" && <Check className="ml-auto h-4 w-4" />}
+                    </button>
+                  </Form>
+                </DropdownMenuItem>
+
+                {/* Turkish */}
+                <DropdownMenuItem asChild>
+                  <Form method="post">
+                    <button
+                      type="submit"
+                      onClick={() => i18n.changeLanguage("tr")}
+                      className="flex w-full items-center gap-3"
+                    >
+                      <span className="text-lg">🇹🇷</span>
+                      <span>Türkçe</span>
+                      {lng === "tr" && <Check className="ml-auto h-4 w-4" />}
+                    </button>
+                  </Form>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </motion.nav>
 
       <section
         id="hero"
-        className="relative flex min-h-screen items-center justify-center overflow-hidden"
+        className="flex flex-col relative flex min-h-screen items-center justify-center overflow-hidden"
       >
         <div className="absolute h-[500px] w-[500px] rounded-full bg-primary blur-3xl"></div>
         <div className="relative z-10 mx-auto max-w-4xl px-4">
@@ -319,6 +356,13 @@ export default function Index() {
             cursorChar={"_"}
           />
         </div>
+        <button
+          onClick={() => setCvOpen(true)}
+          className="flex md:hidden items-center gap-2 rounded-full px-4 py-2 text-sm font-medium border border-red text-white hover:bg-white/10 transition z-10 mt-6"
+        >
+          {t("nav.curriculum")}
+          <FaFile className="h-4 w-4" />
+        </button>
       </section>
 
       <section id="skills" className="scroll-mt-24">
@@ -470,6 +514,59 @@ export default function Index() {
           &copy; {new Date().getFullYear()} {t("footer.rights")}
         </p>
       </footer>
+
+      {/* Modal for CV download */}
+      {cvOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-md">
+          <div className="w-[90%] max-w-md rounded-2xl bg-[#111] p-6 shadow-2xl border border-white/10">
+
+            <h3 className="text-lg font-semibold mb-4 text-white">
+              {t("nav.chooseLanguage") ?? "Choose CV language"}
+            </h3>
+
+            <div className="flex flex-col gap-3">
+              {Object.entries(cvLanguages).map(([key, lang]) => (
+                <button
+                  key={key}
+                  onClick={() => setCvLang(key as CVLanguage)}
+                  className={`flex items-center justify-between rounded-xl px-4 py-3 transition
+                    ${
+                      cvLang === key
+                        ? "bg-primary text-white"
+                        : "bg-white/5 hover:bg-white/10 text-gray-300"
+                    }
+                  `}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-lg">{lang.flag}</span>
+                    <span>{lang.label}</span>
+                  </div>
+
+                  {cvLang === key && <Check className="h-4 w-4" />}
+                </button>
+              ))}
+            </div>
+
+            <div className="mt-6 flex justify-between gap-3">
+              <button
+                onClick={() => setCvOpen(false)}
+                className="flex-1 rounded-xl border border-white/10 py-2 text-gray-300 hover:bg-white/5"
+              >
+                {t("common.cancel") ?? "Cancel"}
+              </button>
+
+              <a
+                href={cvFiles[cvLang]}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 rounded-xl bg-primary py-2 text-center font-medium text-white hover:bg-primary/80"
+              >
+                {t("common.download") ?? "Download"}
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
