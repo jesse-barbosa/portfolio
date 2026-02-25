@@ -365,24 +365,24 @@ export default function Index() {
                   </Form>
                 </DropdownMenuItem>
 
-              {/* English */}
-              <DropdownMenuItem asChild>
-                <Form method="post">
-                  <button
-                    type="submit"
-                    onClick={() => i18n.changeLanguage("en")}
-                    className="flex w-full items-center gap-3"
-                  >
-                    <span className="text-lg">🇺🇸</span>
-                    <span>English</span>
-                    {lng === "en" && <Check className="ml-auto h-4 w-4" />}
-                  </button>
-                </Form>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                {/* English */}
+                <DropdownMenuItem asChild>
+                  <Form method="post">
+                    <button
+                      type="submit"
+                      onClick={() => i18n.changeLanguage("en")}
+                      className="flex w-full items-center gap-3"
+                    >
+                      <span className="text-lg">🇺🇸</span>
+                      <span>English</span>
+                      {lng === "en" && <Check className="ml-auto h-4 w-4" />}
+                    </button>
+                  </Form>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
-      </div>
       </motion.nav>
 
       <section
