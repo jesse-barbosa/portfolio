@@ -60,7 +60,7 @@ export default function Index() {
   });
 
   // idioma atual
-  const lng: UILanguage = ["pt", "en", "tr"].includes(i18n.language)
+  const lng: UILanguage = ["pt", "en"].includes(i18n.language)
     ? (i18n.language as UILanguage)
     : "pt";
 
@@ -163,10 +163,6 @@ export default function Index() {
     en: {
       label: "English",
       flag: "🇺🇸",
-    },
-    tr: {
-      label: "Türkçe",
-      flag: "🇹🇷",
     }
   } as const;
 
@@ -369,39 +365,24 @@ export default function Index() {
                   </Form>
                 </DropdownMenuItem>
 
-                {/* English */}
-                <DropdownMenuItem asChild>
-                  <Form method="post">
-                    <button
-                      type="submit"
-                      onClick={() => i18n.changeLanguage("en")}
-                      className="flex w-full items-center gap-3"
-                    >
-                      <span className="text-lg">🇺🇸</span>
-                      <span>English</span>
-                      {lng === "en" && <Check className="ml-auto h-4 w-4" />}
-                    </button>
-                  </Form>
-                </DropdownMenuItem>
-
-                {/* Turkish */}
-                <DropdownMenuItem asChild>
-                  <Form method="post">
-                    <button
-                      type="submit"
-                      onClick={() => i18n.changeLanguage("tr")}
-                      className="flex w-full items-center gap-3"
-                    >
-                      <span className="text-lg">🇹🇷</span>
-                      <span>Türkçe</span>
-                      {lng === "tr" && <Check className="ml-auto h-4 w-4" />}
-                    </button>
-                  </Form>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+              {/* English */}
+              <DropdownMenuItem asChild>
+                <Form method="post">
+                  <button
+                    type="submit"
+                    onClick={() => i18n.changeLanguage("en")}
+                    className="flex w-full items-center gap-3"
+                  >
+                    <span className="text-lg">🇺🇸</span>
+                    <span>English</span>
+                    {lng === "en" && <Check className="ml-auto h-4 w-4" />}
+                  </button>
+                </Form>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
+      </div>
       </motion.nav>
 
       <section
