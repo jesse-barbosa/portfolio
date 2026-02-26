@@ -29,6 +29,7 @@
     "react-dom": "^18.2.0",
     "react-i18next": "13.5.0",
     "react-icons": "^5.4.0",
+    "react-responsive-masonry": "^2.7.1",
     "remix-i18next": "6.4.1",
     "tailwind-merge": "^3.4.0",
     "tailwindcss-animate": "^1.0.7"

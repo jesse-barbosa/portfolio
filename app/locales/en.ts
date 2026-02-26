@@ -91,6 +91,21 @@ export default {
     ],
   },
 
+  designs: {
+    title: "Designs & Prototypes",
+    description: "Some of the design projects I have done.",
+
+    items: [
+      {
+        images: [
+          "/designs/enerium1.png",
+          "/designs/enerium2.png",
+          "/designs/enerium3.png",
+        ],
+      },
+    ],
+  },
+
   about: {
     title: "Who am I?",
 

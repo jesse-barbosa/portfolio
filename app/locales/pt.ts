@@ -91,6 +91,21 @@ export default {
     ],
   },
 
+  designs: {
+    title: "Desings & Protótipos",
+    description: "Alguns dos projetos de desing que eu fiz.",
+
+    items: [
+      {
+        images: [
+          "/designs/enerium1.png",
+          "/designs/enerium2.png",
+          "/designs/enerium3.png",
+        ],
+      },
+    ],
+  },
+
   about: {
     title: "Quem sou eu?",
 
