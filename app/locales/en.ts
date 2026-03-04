@@ -103,6 +103,11 @@ export default {
           "/designs/enerium3.png",
         ],
       },
+      {
+        images: [
+          "/designs/pizzaria.png"
+        ]
+      }
     ],
   },
 
