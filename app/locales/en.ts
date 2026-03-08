@@ -107,6 +107,11 @@ export default {
         images: [
           "/designs/pizzaria.png"
         ]
+      },
+      {
+        images: [
+          "/designs/event-invitation.png",
+        ]
       }
     ],
   },
