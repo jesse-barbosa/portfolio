@@ -76,14 +76,6 @@ export default {
         platforms: ["Web"],
         images: ["/projects/fiiTraderPrint.png"],
       },
-      {
-        name: "TechMix",
-        description:
-          "An e-commerce system for technology stores, featuring an administrative panel developed with Laravel for store management and customer support, and a mobile application built with React Native for end users.",
-        technologies: ["React Native", "JavaScript", "Laravel / PHP"],
-        platforms: ["Android", "iOS", "PC"],
-        images: ["/projects/techMixPrint.png"],
-      },
     ],
   },
 

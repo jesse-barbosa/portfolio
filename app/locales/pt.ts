@@ -75,14 +75,6 @@ export default {
         platforms: ["Web"],
         images: ["/projects/fiiTraderPrint.png"],
       },
-      {
-        name: "TechMix",
-        description:
-          "Este é um sistema de e-commerce para lojas de tecnologia, com um painel administrativo desenvolvido em Laravel para gerenciamento e atendimento da loja e um aplicativo mobile feito com React-Native para clientes finais.",
-        technologies: ["React Native", "JavaScript", "Laravel / PHP"],
-        platforms: ["Android", "iOS", "PC"],
-        images: ["/projects/techMixPrint.png"],
-      },
     ],
   },
 
