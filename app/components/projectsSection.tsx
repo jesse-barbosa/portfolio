@@ -125,16 +125,22 @@ export function ProjectsSection({
               </div>
 
               {/* Gallery */}
-              <div className="grid gap-6 md:grid-cols-2">
+              <div className="columns-1 gap-6 md:columns-2">
                 {activeProject.images.map((img, i) => (
-                  <motion.img
+                  <motion.div
                     key={i}
-                    src={img}
-                    className="rounded-2xl object-cover"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.08 }}
-                  />
+                    className="mb-6 break-inside-avoid overflow-hidden rounded-2xl bg-white/5"
+                  >
+                    <img
+                      src={img}
+                      alt={`${activeProject.name} ${i + 1}`}
+                      className="w-full rounded-2xl object-cover"
+                      loading="lazy"
+                    />
+                  </motion.div>
                 ))}
               </div>
 
