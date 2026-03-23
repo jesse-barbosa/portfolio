@@ -50,6 +50,24 @@ export default {
         ],
       },
       {
+        name: "Circlub",
+        description: "O Circlub é um aplicativo mobile voltado para a gestão de contatos, agendamentos e relacionamentos profissionais, oferecendo uma experiência prática e organizada para acompanhar conexões, horários e interações de forma intuitiva. Desenvolvido com React Native, TypeScript, Python e Laravel, o projeto foi pensado para unir usabilidade, desempenho e uma estrutura escalável tanto no Android quanto no iOS.",
+        technologies: [
+          "React Native",
+          "TypeScript",
+          "Python",
+          "Laravel / PHP",
+        ],
+        platforms: ["Android, iOS"],
+        images: [
+          "/projects/circlub/Banner.png",
+          "/projects/circlub/demo_1.jpg",
+          "/projects/circlub/demo_2.jpg",
+          "/projects/circlub/demo_3.jpg",
+          "/projects/circlub/demo_4.jpg",
+        ],
+      },
+      {
         name: "FII Trader",
         description:
           "Este sistema fundado por Marcos Rodrigues Alves tem como objetivo gerenciar e fazer análises inteligentes de oportunidades de compra e venda de Fundos Imobiliários com base em fórmulas e algorítmos avançados.",

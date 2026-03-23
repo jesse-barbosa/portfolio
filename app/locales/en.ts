@@ -50,6 +50,25 @@ export default {
         ],
       },
       {
+        name: "Circlub",
+        description:
+          "Circlub is a mobile application focused on managing contacts, schedules, and professional relationships, offering a practical and organized experience for tracking connections, hours, and interactions in an intuitive way. Developed with React Native, TypeScript, Python, and Laravel, the project was designed to combine usability, performance, and a scalable structure for both Android and iOS.",
+        technologies: [
+          "React Native",
+          "TypeScript",
+          "Python",
+          "Laravel / PHP",
+        ],
+        platforms: ["Android, iOS"],
+        images: [
+          "/projects/circlub/Banner.png",
+          "/projects/circlub/demo_1.jpg",
+          "/projects/circlub/demo_2.jpg",
+          "/projects/circlub/demo_3.jpg",
+          "/projects/circlub/demo_4.jpg",
+        ],
+      },
+      {
         name: "FII Trader",
         description:
           "This system, founded by Marcos Rodrigues Alves, aims to manage and perform intelligent analyses of buying and selling opportunities for Real Estate Investment Funds, based on advanced formulas and algorithms.",
