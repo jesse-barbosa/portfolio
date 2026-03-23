@@ -65,29 +65,6 @@ export default {
         platforms: ["Android", "iOS", "PC"],
         images: ["/projects/techMixPrint.png"],
       },
-      {
-        name: "Monyra",
-        description:
-          "Este foi meu primeiro aplicativo feito com React-native, usei PHP e JavaScript para o BackEnd, e os recursos do React-native para o FrontEnd.",
-        technologies: ["React Native", "JavaScript", "PHP"],
-        platforms: ["Android", "iOS", "PC"],
-        images: ["/projects/monyraPrint.png"],
-      },
-      {
-        name: "Notten",
-        description:
-          "Este é um aplicativo Desktop de anotações feito com HTML, CSS, Bootstrap, JavaScript, e PHP para o Back-end.",
-        technologies: [
-          "Electron",
-          "HTML",
-          "Bootstrap",
-          "CSS",
-          "JavaScript",
-          "PHP",
-        ],
-        platforms: ["PC"],
-        images: ["/projects/nottenPrint.png"],
-      },
     ],
   },
 

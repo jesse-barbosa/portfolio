@@ -65,29 +65,6 @@ export default {
         platforms: ["Android", "iOS", "PC"],
         images: ["/projects/techMixPrint.png"],
       },
-      {
-        name: "Monyra",
-        description:
-          "This was my first application developed with React Native. PHP and JavaScript were used for the backend, while React Native handled the frontend.",
-        technologies: ["React Native", "JavaScript", "PHP"],
-        platforms: ["Android", "iOS", "PC"],
-        images: ["/projects/monyraPrint.png"],
-      },
-      {
-        name: "Notten",
-        description:
-          "A desktop note-taking application built with HTML, CSS, Bootstrap, JavaScript, and PHP for the backend.",
-        technologies: [
-          "Electron",
-          "HTML",
-          "Bootstrap",
-          "CSS",
-          "JavaScript",
-          "PHP",
-        ],
-        platforms: ["PC"],
-        images: ["/projects/nottenPrint.png"],
-      },
     ],
   },
 
